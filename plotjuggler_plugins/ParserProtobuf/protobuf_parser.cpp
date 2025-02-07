@@ -159,8 +159,11 @@ bool ProtobufParser::parseMessage(const MessageRef serialized_msg, double& times
                                    reflection->GetRepeatedEnum(msg, field, index);
 
             auto& series = this->getStringSeries(key + suffix);
-            series.pushBack({ timestamp, tmp->name() });
-            is_double = false;
+            series.pushBack({timestamp, tmp->name()});
+            //is_double = false;
+            // Also log the raw number to it can be plotted
+            value = static_cast<double>(tmp->index());
+            suffix = "[number]";
           }
           break;
           case gp::FieldDescriptor::CPPTYPE_STRING: {
